@@ -2,13 +2,15 @@ import React from "react";
 import { useContext } from "react";
 import { FaArchive, FaMoon, FaSignOutAlt, FaSun, FaUser } from "react-icons/fa";
 import { MdGTranslate } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import LocalContext from "../contexts/LocalContext";
 import ThemeContext from "../contexts/ThemeContext";
 import { deleteCookie, getCookie } from "../utils/cookies";
 
 function Navigation () {
+  const navigate = useNavigate();
+
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const { local, toggleLocal} = useContext(LocalContext);
@@ -29,7 +31,8 @@ function Navigation () {
           icon: 'success',
           title: `${local === 'id' ? 'Logout berhasil!' : 'Logout sucesfully!'}`,
         }).then(() => {
-          window.location.href = '/';
+          navigate('/');
+          window.location.reload();
         });
       } else {
         swal({

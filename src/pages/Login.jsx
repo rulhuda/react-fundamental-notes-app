@@ -61,7 +61,8 @@ function LoginPage () {
       'icon': 'success',
       'title': `${local === 'id' ? 'Login berhasil!' : 'Login successfully!'}`,
     }).then(() => {
-      window.location.href = '/';
+      navigate('/');
+      window.location.reload();
     });
 
   }

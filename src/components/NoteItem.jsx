@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { showFormattedDate } from "../utils/index";
 import PropTypes from "prop-types";
 import { useContext } from "react";
@@ -11,6 +11,8 @@ import DataSource from "../data/data-source";
 import LocalContext from "../contexts/LocalContext";
 
 function NoteItem ({ id, title, body, createdAt, archived }) {
+  const navigate = useNavigate();
+  
   const { theme } = useContext(ThemeContext);
   const { local } = useContext(LocalContext);
 
@@ -82,7 +84,8 @@ function NoteItem ({ id, title, body, createdAt, archived }) {
             return;
           }
 
-          window.location.href = "/";
+          navigate('/');
+          window.location.reload();
         });
       } else {
         swal(`${local === 'id' ? 'Pengarsipan catatan dengan judul ' : 'Archiving note with title '} ${temp[0].title} ${local === 'id' ? ' dibatalkan' : ' cancelled'}`);
@@ -121,7 +124,8 @@ function NoteItem ({ id, title, body, createdAt, archived }) {
             return;
           }
           
-          window.location.href = "/archives";
+          navigate('/archives');
+          window.location.reload();
         });
       } else {
         swal(`${local === 'id' ? 'Pengaktifan catatan dengan judul ' : 'Activating note with title '} ${temp[0].title} ${local === 'id' ? ' dibatalkan' : ' cancelled'}`);
