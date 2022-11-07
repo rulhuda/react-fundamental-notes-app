@@ -174,12 +174,12 @@ function DetailPage () {
         </div>
         <div className="detail-page__action">
           {
-            archived === true && <button className="action" title="aktifkan" onClick={onActivatedNote}><FaCheckCircle /> </button>
+            archived === true && <button className="action" title={`${local === 'id' ? 'Aktifkan catatan' : 'Activate note'}`} onClick={onActivatedNote}><FaCheckCircle /> </button>
           }
           {
-            archived === false && <button className="action" title="arsipkan" onClick={onArchivedNote}><FaArchive /> </button>
+            archived === false && <button className="action" title={`${local === 'id' ? 'Arsipkan catatan' : 'Archive note'}`} onClick={onArchivedNote}><FaArchive /> </button>
           }   
-          <button className="action" type="button" title="hapus" onClick={onDeleteHandler}><FaTrash /></button>
+          <button className="action" type="button" title={`${local === 'id' ? 'Hapus catatan' : 'Delete note'}`} onClick={onDeleteHandler}><FaTrash /></button>
         </div>
     </section>
   )

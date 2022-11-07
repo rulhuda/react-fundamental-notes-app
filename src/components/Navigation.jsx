@@ -45,16 +45,16 @@ function Navigation () {
     <nav className="navigation">
       <ul>
         <>
-          <li><Link title={theme === 'light' ? 'gelap' : 'terang'} onClick={toggleTheme}> {theme === 'light' ? <FaMoon /> : <FaSun />} </Link></li>
+          <li><Link title={theme === 'light' ? `${local === 'id' ? 'Gelap' : 'Dark'}` : `${local === 'id' ? 'Terang' : 'Light'}`} onClick={toggleTheme}> {theme === 'light' ? <FaMoon /> : <FaSun />} </Link></li>
 
           <li><Link title={local === 'id' ? 'English' : 'Indonesia'} onClick={toggleLocal}><MdGTranslate /></Link></li>
         </>
         {
           getCookie('token').length > 0 && 
           <>
-            <li><Link to='/me' title="profilku"><FaUser /> </Link></li>
-            <li><Link to='/archives' title="arsip catatan"><FaArchive /> </Link></li>
-            <li><Link title="logout" onClick={actionLogout}><FaSignOutAlt /> </Link></li>
+            <li><Link to='/me' title={`${local === 'id' ? 'Profilku' : 'My Profile'}`}><FaUser /> </Link></li>
+            <li><Link to='/archives' title={`${local === 'id' ? 'Arsip catatan' : 'Archived Notes'}`}><FaArchive /> </Link></li>
+            <li><Link title={`${local === 'id' ? 'Keluar' : 'Logout'}`}onClick={actionLogout}><FaSignOutAlt /> </Link></li>
           </>
         }    
       </ul>

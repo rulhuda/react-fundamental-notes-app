@@ -145,12 +145,12 @@ function NoteItem ({ id, title, body, createdAt, archived }) {
       <Card.Footer>
         <span className="d-flex">
           {
-            archived === true && <button className="action" title="aktifkan" onClick={onActivatedNote}><FaCheckCircle /> </button>
+            archived === true && <button className="action" title={`${local === 'id' ? 'Aktifkan catatan' : 'Activate note'}`} onClick={onActivatedNote}><FaCheckCircle /> </button>
           }
           {
-            archived === false && <button className="action" title="arsipkan" onClick={onArchivedNote}><FaArchive /> </button>
+            archived === false && <button className="action" title={`${local === 'id' ? 'Arsipkan catatan' : 'Archive note'}`} onClick={onArchivedNote}><FaArchive /> </button>
           }   
-          <button className="action ms-2" type="button" title="hapus" onClick={onDeleteHandler}><FaTrash /></button>
+          <button className="action ms-2" type="button" title={`${local === 'id' ? 'Hapus catatan' : 'Delete note'}`} onClick={onDeleteHandler}><FaTrash /></button>
         </span>
       </Card.Footer>
     </Card>
