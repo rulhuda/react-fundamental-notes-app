@@ -23,6 +23,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  transition: background 0.3s ease-in;
 }
 
 a {
@@ -32,11 +33,13 @@ a {
 
 body {
   font-family: 'Inter', sans-serif;
+  background-color: var(--on-background);
+  color: var(--on-background);
 }
 
 .app-container {
-  color: var(--on-background);
-  background-color: var(--background);
+  color: var(--on-background) !important;
+  background-color: var(--background) !important;
   min-height: 100vh;
   transition: all ease-in-out 0.5s;
 }
@@ -83,6 +86,7 @@ main {
   text-align: center;
   color: var(--on-background-grey);
 }
+
 .note-item {
   padding: 16px;
   border-radius: 8px;
@@ -111,7 +115,7 @@ main {
 
 .detail-page {
   margin: 0 auto;
-  margin-top: 32px; 
+  margin-top: 32px;
   width: 90%;
 }
 
@@ -131,7 +135,9 @@ main {
   font-size: 18px;
 }
 
-.detail-page__action, .homepage__action, .add-new-page__action {
+.detail-page__action,
+.homepage__action,
+.add-new-page__action {
   position: fixed;
   display: flex;
   gap: 16px;
@@ -204,7 +210,8 @@ main {
   color: var(--on-background-grey);
 }
 
-.toggle-theme, .toggle-locale {
+.toggle-theme,
+.toggle-locale {
   background-color: transparent;
   border: 0;
   cursor: pointer;
@@ -222,16 +229,19 @@ main {
   font-size: 28px;
 }
 
-.input-login, .input-register {
+.input-login,
+.input-register {
   margin: 32px 0;
 }
 
-.input-login label, .input-register label {
+.input-login label,
+.input-register label {
   font-size: 24px;
   font-weight: lighter;
 }
 
-.input-login input, .input-register input {
+.input-login input,
+.input-register input {
   font-size: 18px;
   font-family: 'Inter', sans-serif;
   margin-top: 8px;
@@ -245,7 +255,8 @@ main {
   color: var(--on-background)
 }
 
-.input-login button, .input-register button {
+.input-login button,
+.input-register button {
   font-family: 'Inter', sans-serif;
   font-weight: bold;
   font-size: 24px;
@@ -269,12 +280,29 @@ main {
   color: var(--on-background);
 }
 
+.form-input {
+  color: var(--on-background);
+  font-size: 18px;
+  border: none;
+  border-bottom: 1px solid #dfdfdf;
+  background-color: transparent;
+}
+
+.form-input:focus{
+  color: var(--on-background);
+  background-color: transparent;
+}
+
+.text-grey {
+  color: #cfcfcf;
+}
+
 @media screen and (min-width: 650px) {
   .notes-list {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .detail-page__title { 
+  .detail-page__title {
     font-size: 64px;
   }
 }

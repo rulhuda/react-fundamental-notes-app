@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addNote } from "../utils/local-data";
+import swal from "sweetalert";
 import { FaSave } from "react-icons/fa";
+import DataSource from "../data/data-source";
 
 function NoteInput () {
-  const navigate =useNavigate();
+  const navigate = useNavigate();
 
   const form = {
     title: '',
@@ -12,11 +13,15 @@ function NoteInput () {
   };
 
   const [controlForm, setControlForm] = useState(form);
-  const { title, body } = controlForm;
 
-  const addNoteHandler = () => {
-    addNote({title, body})
-    alert(`Berhasil menambahkan catatan dengan judul ${title}`)
+  const addNoteHandler = async () => {
+    const createNote = await DataSource.CreateNote(controlForm);
+
+    swal({
+      icon: 'success',
+      title: 'Berhasil menambahkan catatan!',
+      text: `Berhasil menambahkan catatan dengan judul ${createNote.data.title}`
+    });
     navigate('/');
   }
 

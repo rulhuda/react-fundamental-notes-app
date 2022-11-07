@@ -3,12 +3,22 @@ import NoteItem from "./NoteItem";
 import PropTypes from "prop-types";
 
 function NotesList ({ notes }) {
+
+  const checkNotes = (notes) => {
+    if (notes === undefined || notes.length === 0) {
+      return <h2>Tidak ada catatan!</h2>
+    }
+
+    return (
+      notes.map((note) => (  
+        <NoteItem key={note.id} {...note} />
+      ))
+    )
+  }
   return (
     <div className="notes-list">
       {
-        notes.length > 0 ? notes.map((note) => (  
-          <NoteItem key={note.id} {...note} />
-        )) : <h2>Tidak ada catatan!</h2>
+       checkNotes(notes)
       }
     </div>
   )
