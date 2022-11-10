@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router-dom";
