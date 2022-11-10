@@ -1,6 +1,5 @@
 import React from "react";
 import { useContext } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -79,7 +78,7 @@ function RegisterPage () {
       'title': `${local === 'id' ? 'Registrasi berhasil!' : 'Registration succesfully!'}`,
       'text': `${local === 'id' ? 'Silahkan login dengan akun yang telah anda daftarkan!' : 'Please login with the account you have registered!!'}`,
     }).then(() => {
-      navigate('/login');
+      navigate('/');
     });
   }
 

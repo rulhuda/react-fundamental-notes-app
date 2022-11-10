@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NotesList from "../components/NotesList";

@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { FaSave } from "react-icons/fa";
 import DataSource from "../data/data-source";
+import { useContext } from "react";
+import LocalContext from "../contexts/LocalContext";
 
 function NoteInput () {
   const navigate = useNavigate();
+
+  const { local } = useContext(LocalContext);
 
   const form = {
     title: '',
@@ -19,8 +23,8 @@ function NoteInput () {
 
     swal({
       icon: 'success',
-      title: 'Berhasil menambahkan catatan!',
-      text: `Berhasil menambahkan catatan dengan judul ${createNote.data.title}`
+      title: `${local === 'id' ? 'Berhasil menambahkan catatan' : 'Successfully added note!'}!`,
+      text: `${local === 'id' ? `Berhasil menambahkan catatan dengan judul ${createNote.data.title}` : `Successfully added note with title ${createNote.data.title}`}`
     });
     navigate('/');
   }
@@ -28,9 +32,9 @@ function NoteInput () {
   return (
     <section className="note-input">
       <div className="add-new-page__input">
-        <input className="add-new-page__input__title" type="text" placeholder="Judul ..." value={controlForm.title} onChange={(event) => setControlForm({...controlForm, title: event.target.value })} />
+        <input className="add-new-page__input__title" type="text" placeholder={`${local === 'id' ? 'Judul ...' : 'Title ...'}`} value={controlForm.title} onChange={(event) => setControlForm({...controlForm, title: event.target.value })} />
 
-        <textarea className="add-new-page__input__body" placeholder="Isi catatan ..." contentEditable="true" suppressContentEditableWarning="true" onInput={(event) => setControlForm({...controlForm, body: event.target.value })} defaultValue={controlForm.body} ></textarea>
+        <textarea className="add-new-page__input__body" placeholder={`${local === 'id' ? 'Isi catatan ...' : 'Body ...'}`}contentEditable="true" suppressContentEditableWarning="true" onInput={(event) => setControlForm({...controlForm, body: event.target.value })} defaultValue={controlForm.body} ></textarea>
       </div>
       
       <div className="add-new-page__action" onClick={addNoteHandler}>

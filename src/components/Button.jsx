@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const BUTTON_THEME = {
   blue: 'btn btn-primary me-2',
@@ -13,6 +14,12 @@ function Button ({ children, theme="blue", buttonOptions }) {
   return (
     <button className={`${BUTTON_THEME[theme]}`} {...buttonOptions}>{children}</button>
   )
+}
+
+Button.propTypes = {
+  children: PropTypes.string.isRequired,
+  theme: PropTypes.string,
+  buttonOptions: PropTypes.object.isRequired,
 }
 
 export default Button;
