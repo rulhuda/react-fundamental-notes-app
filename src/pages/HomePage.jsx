@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useFormik } from "formik";
 import { FaPlusCircle } from "react-icons/fa";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NotesList from "../components/NotesList";
-import SearchBar from "../components/SearchBar";
 import PropTypes from "prop-types";
 import DataSource from "../data/data-source";
 import { useEffect } from "react";
@@ -12,6 +12,8 @@ import swal from "sweetalert";
 import { ThreeDots } from "react-loader-spinner";
 import { useContext } from "react";
 import LocalContext from "../contexts/LocalContext";
+import FiltersComponent from "../components/FiltersComponent";
+import dayjs from "dayjs";
 
 function HomePageWrapper() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,13 +31,23 @@ function HomePageWrapper() {
 
 function HomePage({ defaultKeyword, keywordChange }) {
   const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      "title-query": "",
+      body: "",
+      "body-query": "",
+      "createdAt-starts": "",
+      "createdAt-ends": "",
+    },
+    onSubmit: (data) => {
+      console.log(data);
+    },
+  });
+
+  console.log(formik.values);
 
   const { local } = useContext(LocalContext);
-  const onSearchHandler = (keyword) => {
-    setKeyword(keyword);
-
-    keywordChange(keyword);
-  };
 
   const addNoteNavigate = () => {
     navigate("/new");
@@ -43,7 +55,6 @@ function HomePage({ defaultKeyword, keywordChange }) {
 
   const [notes, setNotes] = useState([]);
   const [keyword, setKeyword] = useState(defaultKeyword || "");
-  const [filterNotes, setFilterNotes] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -73,42 +84,88 @@ function HomePage({ defaultKeyword, keywordChange }) {
     AllNotes();
     console.log(notes);
   }, []);
-  console.log(notes);
 
-  useEffect(() => {
-    const notesList = (notes, keyword) => {
-      if (notes === null) {
-        return [];
-      }
+  console.log("notes", notes);
 
-      const data = notes.filter((note) =>
-        note.title.toLowerCase().includes(keyword.toLowerCase())
-      );
+  const filteredNotes = useMemo(() => {
+    let temp = notes;
 
-      if (keyword.trim() === "") {
-        return notes.sort((a, b) => {
-          if (a.createdAt > b.createdAt) {
-            return -1;
-          }
-          if (b.createdAt > a.createdAt) {
-            return 1;
-          }
-          return 0;
-        });
-      }
-
-      if (data.length > 0) {
-        return data;
-      }
+    const query = {
+      contains: "contains",
+      starts: "starts",
+      ends: "ends",
     };
 
-    const resultNotesList = notesList(notes, keyword);
-    setFilterNotes(resultNotesList);
-  }, [notes, keyword]);
+    if (formik.values?.title) {
+      if (formik.values["title-query"] === query.contains) {
+        temp = temp.filter((note) => {
+          return note.title
+            .toLowerCase()
+            .includes(formik.values?.title.toLowerCase());
+        });
+      } else if (formik.values["title-query"] === query.starts) {
+        temp = temp.filter((note) => {
+          return note.title
+            .toLowerCase()
+            .startsWith(formik.values?.title.toLowerCase());
+        });
+      } else if (formik.values["title-query"] === query.ends) {
+        temp = temp.filter((note) => {
+          return note.title
+            .toLowerCase()
+            .endsWith(formik.values?.title.toLowerCase());
+        });
+      }
+    }
+
+    if (formik.values?.body) {
+      if (formik.values["body-query"] === query.contains) {
+        temp = temp.filter((note) => {
+          return note.body
+            .toLowerCase()
+            .includes(formik.values?.body.toLowerCase());
+        });
+      } else if (formik.values["body-query"] === query.starts) {
+        temp = temp.filter((note) => {
+          return note.body
+            .toLowerCase()
+            .startsWith(formik.values?.body.toLocaleLowerCase());
+        });
+      } else if (formik.values["body-query"] === query.ends) {
+        temp = temp.filter((note) => {
+          return note.body
+            .toLowerCase()
+            .endsWith(formik.values?.body.toLowerCase());
+        });
+      }
+    }
+
+    if (formik.values?.["createdAt-starts"]) {
+      temp = temp.filter((note) => {
+        return (
+          dayjs(formik.values?.["createdAt-starts"]).format("YYYY-MM-DD") <=
+          dayjs(note.createdAt).format("YYYY-MM-DD")
+        );
+      });
+    }
+
+    if (formik.values?.["createdAt-ends"]) {
+      temp = temp.filter((note) => {
+        return (
+          dayjs(formik.values?.["createdAt-ends"]).format("YYYY-MM-DD") >=
+          dayjs(note.createdAt).format("YYYY-MM-DD")
+        );
+      });
+    }
+
+    return temp;
+  }, [notes, keyword, formik.values]);
 
   return (
     <section className="homepage">
-      <SearchBar onSearchHandler={onSearchHandler} />
+      {/* <SearchBar onSearchHandler={onSearchHandler} /> */}
+      <h1>Filters</h1>
+      <FiltersComponent formik={formik} />
       <h2>
         {local === "id" ? "Daftar Catatan Aktif" : "List of Active Notes"}
       </h2>
@@ -125,7 +182,7 @@ function HomePage({ defaultKeyword, keywordChange }) {
           visible={true}
         />
       ) : (
-        <NotesList notes={filterNotes} />
+        <NotesList notes={filteredNotes} />
       )}
 
       <div className="homepage__action">
